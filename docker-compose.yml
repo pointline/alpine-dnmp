@@ -1,0 +1,77 @@
+version: "3.2"
+
+services:
+  ## Nginx Web Container ###
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/log:/var/log/nginx:rw
+    ports:
+      - "8080:80"
+      - "8035:8035"
+    restart: always
+    networks:
+      - net-php71
+    depends_on:
+      - php71
+    
+  ### PHP FPM Container ###
+  php71:
+    build: ./php71
+    container_name: php71
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./php71/conf/php.ini:/etc/php7/php.ini:ro
+      - ./php71/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./php71/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+    expose:
+      - "9000"
+    restart: always
+    networks:
+      - net-php71
+      - net-mysql
+    depends_on:
+      - mysql
+
+  ### MYSQL Container ###
+  mysql:
+    build: ./mysql
+    container_name: mysql
+    volumes:
+      - type: volume
+        source: data-mysql
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+      - ./mysql/conf/my.cnf:/etc/mysql/my.cnf:ro
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    restart: always
+    networks:
+      - net-mysql
+
+  ### WWW DATA Container ###
+  # www-data:
+  #   image: alpine:latest
+  #   container_name: www-data
+  #   volumes:
+  #     - ./www:/var/lib/mysql:rw
+
+### Networks Setup ###
+networks:
+  net-mysql:
+  net-php71:
+
+### Volumes Setup ###
+volumes:
+  data-mysql: 
