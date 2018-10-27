@@ -1,2 +1,0 @@
-192.168.128.1 - - [27/Oct/2018:14:15:30 +0000] "GET / HTTP/1.1" 200 22101 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36" "-"
-192.168.128.1 - - [27/Oct/2018:14:15:31 +0000] "GET / HTTP/1.1" 200 22115 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36" "-"
