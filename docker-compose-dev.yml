@@ -1,0 +1,12 @@
+version: "3.2"
+services:
+  nginx:
+    volumes:
+      - www-sync:/var/www/html:nocopy
+  php71:
+    volumes:
+      - www-sync:/var/www/html:nocopy
+
+volumes:
+  www-sync:
+    external: true

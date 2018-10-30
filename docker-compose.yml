@@ -6,9 +6,11 @@ services:
     build: ./images/nginx
     container_name: nginx
     volumes:
-      - type: bind
-        source: ./www
+      - type: volume
+        source: www-sync
         target: /var/www/html
+        volume:
+          nocopy: true
       - ./conf/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./conf/nginx/conf/conf.d:/etc/nginx/conf.d:ro
       - ./log/nginx/log:/var/log/nginx:rw
@@ -25,9 +27,11 @@ services:
     build: ./images/php71
     container_name: php71
     volumes:
-      - type: bind
-        source: ./www
+      - type: volume
+        source: www-sync
         target: /var/www/html
+        volume:
+          nocopy: true
       - ./conf/php71/conf/php.ini:/etc/php7/php.ini:ro
       - ./conf/php71/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
       - ./conf/php71/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
@@ -70,3 +74,5 @@ networks:
 volumes:
   db-mysql:
     driver: local
+  www-sync:
+    external: true
