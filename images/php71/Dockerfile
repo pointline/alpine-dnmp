@@ -1,6 +1,10 @@
-FROM alpine:latest
+FROM mhart/alpine-node:10.15.0
 
 MAINTAINER peter <peter@xulukun.cn>
+
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org && \
+    yarn config set registry https://registry.npm.taobao.org && \
+    cnpm i -g grunt-cli
 
 # Mirror mirror switch to Ali-OSM (Alibaba Open Source Mirror Site) - http://mirrors.aliyun.com/
 RUN echo 'https://mirrors.aliyun.com/alpine/v3.7/main' > /etc/apk/repositories  && \
