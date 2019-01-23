@@ -44,6 +44,7 @@ RUN apk update && apk upgrade && \
         php7-opcache \
         php7-tokenizer \
         php7-session \
+        php7-fileinfo \
         php7-xml && \
 # Cleaning up
     rm -rf /var/cache/apk/*
