@@ -1,0 +1,6 @@
+172.19.0.1 - - [28/Jan/2019:06:04:49 +0000] "GET /pub/static/frontend/Magento/luma/en_US/prototype/windows/themes/default.css HTTP/1.1" 404 153 "-" "-" "-"
+172.19.0.1 - - [28/Jan/2019:06:04:49 +0000] "GET /pub/media/theme/static/frontend/%7B%7Bdesign_package%7D%7D/default/en_US/Magento_Theme/prototype/magento.css HTTP/1.1" 404 153 "-" "-" "-"
+172.19.0.1 - - [28/Jan/2019:06:04:49 +0000] "GET /pub/static/frontend/Magento/luma/en_US/mage/translate-inline.css HTTP/1.1" 404 153 "-" "-" "-"
+172.19.0.1 - - [28/Jan/2019:06:04:51 +0000] "GET /pub/static/frontend/Magento/luma/en_US/prototype/windows/themes/default.css HTTP/1.1" 404 153 "-" "-" "-"
+172.19.0.1 - - [28/Jan/2019:06:04:51 +0000] "GET /pub/media/theme/static/frontend/%7B%7Bdesign_package%7D%7D/default/en_US/Magento_Theme/prototype/magento.css HTTP/1.1" 404 153 "-" "-" "-"
+172.19.0.1 - - [28/Jan/2019:06:04:51 +0000] "GET /pub/static/frontend/Magento/luma/en_US/mage/translate-inline.css HTTP/1.1" 404 153 "-" "-" "-"

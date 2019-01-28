@@ -1,0 +1,66 @@
+2019/01/28 03:07:00 [error] 8#8: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Zend_Cache_Exception: cache_dir "/var/www/html/m2-allbirds/var/cache/" is not writable in /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php:209
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache/Backend/File.php(180): Zend_Cache::throwException('cache_dir "/var...')
+#1 /var/www/html/m2-allbirds/vendor/colinmollenhour/cache-backend-file/File.php(87): Zend_Cache_Backend_File->setCacheDir('/var/www/html/m...')
+#2 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(153): Cm_Cache_Backend_File->__construct(Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(94): Zend_Cache::_makeBackend('Cm_Cache_Backen...', Array, true, true)
+#4 /var/www/html/m2-allbirds/vendor/magento/framework/App/Cache/Frontend/Factory.php(156): Zend_Cache::factory('Magento\\Framewo...', 'Cm_Cache_Backen...', Array, Array, true, true, true)
+#5 /var/www/html/m2-allbirds/" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET / HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035"
+2019/01/28 03:07:00 [error] 8#8: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Zend_Cache_Exception: cache_dir "/var/www/html/m2-allbirds/var/cache/" is not writable in /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php:209
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache/Backend/File.php(180): Zend_Cache::throwException('cache_dir "/var...')
+#1 /var/www/html/m2-allbirds/vendor/colinmollenhour/cache-backend-file/File.php(87): Zend_Cache_Backend_File->setCacheDir('/var/www/html/m...')
+#2 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(153): Cm_Cache_Backend_File->__construct(Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(94): Zend_Cache::_makeBackend('Cm_Cache_Backen...', Array, true, true)
+#4 /var/www/html/m2-allbirds/vendor/magento/framework/App/Cache/Frontend/Factory.php(156): Zend_Cache::factory('Magento\\Framewo...', 'Cm_Cache_Backen...', Array, Array, true, true, true)
+#5 /var/www/html/m2-allbirds/" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035", referrer: "http://allbirds.mez100.cn:8035/"
+2019/01/28 03:26:35 [error] 7#7: *188 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Zend_Cache_Exception: cache_dir "/var/www/html/m2-allbirds/var/cache/" is not writable in /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php:209
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache/Backend/File.php(180): Zend_Cache::throwException('cache_dir "/var...')
+#1 /var/www/html/m2-allbirds/vendor/colinmollenhour/cache-backend-file/File.php(87): Zend_Cache_Backend_File->setCacheDir('/var/www/html/m...')
+#2 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(153): Cm_Cache_Backend_File->__construct(Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(94): Zend_Cache::_makeBackend('Cm_Cache_Backen...', Array, true, true)
+#4 /var/www/html/m2-allbirds/vendor/magento/framework/App/Cache/Frontend/Factory.php(156): Zend_Cache::factory('Magento\\Framewo...', 'Cm_Cache_Backen...', Array, Array, true, true, true)
+#5 /var/www/html/m2-allbirds/" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET / HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035"
+2019/01/28 03:26:35 [error] 7#7: *188 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Zend_Cache_Exception: cache_dir "/var/www/html/m2-allbirds/var/cache/" is not writable in /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php:209
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache/Backend/File.php(180): Zend_Cache::throwException('cache_dir "/var...')
+#1 /var/www/html/m2-allbirds/vendor/colinmollenhour/cache-backend-file/File.php(87): Zend_Cache_Backend_File->setCacheDir('/var/www/html/m...')
+#2 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(153): Cm_Cache_Backend_File->__construct(Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/zendframework1/library/Zend/Cache.php(94): Zend_Cache::_makeBackend('Cm_Cache_Backen...', Array, true, true)
+#4 /var/www/html/m2-allbirds/vendor/magento/framework/App/Cache/Frontend/Factory.php(156): Zend_Cache::factory('Magento\\Framewo...', 'Cm_Cache_Backen...', Array, Array, true, true, true)
+#5 /var/www/html/m2-allbirds/" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035", referrer: "http://allbirds.mez100.cn:8035/"
+2019/01/28 05:47:48 [error] 7#7: *725 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'Silksoftwarecorp\Base\Model\QRcode\QRcode' not found in /var/www/html/m2-allbirds/app/code/Silksoftwarecorp/WechatPay/Controller/Checkout/Qrcode.php:21
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/framework/App/Action/Action.php(108): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode->execute()
+#1 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(58): Magento\Framework\App\Action\Action->dispatch(Object(Magento\Framework\App\Request\Http))
+#2 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(138): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->___callParent('dispatch', Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/module-customer-segment/Model/App/Action/ContextPlugin.php(81): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->Magento\Framework\Interception\{closure}(Object(Magento\Framework\App\Request\Http))
+#4 /var/www/html/m2-allbird" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET /wechatpay/checkout/qrcode/data/http%253A%252F%252Fallbirds.mez100.cn%253A8035%252Fcustomer%252Faccount%252Flogin%252F/ HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035", referrer: "http://allbirds.mez100.cn:8035/customer/account/login/"
+2019/01/28 05:47:55 [error] 8#8: *729 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'Silksoftwarecorp\Base\Model\QRcode\QRcode' not found in /var/www/html/m2-allbirds/app/code/Silksoftwarecorp/WechatPay/Controller/Checkout/Qrcode.php:21
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/framework/App/Action/Action.php(108): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode->execute()
+#1 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(58): Magento\Framework\App\Action\Action->dispatch(Object(Magento\Framework\App\Request\Http))
+#2 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(138): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->___callParent('dispatch', Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/module-customer-segment/Model/App/Action/ContextPlugin.php(81): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->Magento\Framework\Interception\{closure}(Object(Magento\Framework\App\Request\Http))
+#4 /var/www/html/m2-allbird" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET /wechatpay/checkout/qrcode/data/http%253A%252F%252Fallbirds.mez100.cn%253A8035%252Fcustomer%252Faccount%252Flogin%252F/ HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035", referrer: "http://allbirds.mez100.cn:8035/customer/account/login/"
+2019/01/28 05:50:54 [error] 7#7: *742 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'Silksoftwarecorp\Base\Model\QRcode\QRcode' not found in /var/www/html/m2-allbirds/app/code/Silksoftwarecorp/WechatPay/Controller/Checkout/Qrcode.php:21
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/framework/App/Action/Action.php(108): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode->execute()
+#1 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(58): Magento\Framework\App\Action\Action->dispatch(Object(Magento\Framework\App\Request\Http))
+#2 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(138): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->___callParent('dispatch', Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/module-customer-segment/Model/App/Action/ContextPlugin.php(81): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->Magento\Framework\Interception\{closure}(Object(Magento\Framework\App\Request\Http))
+#4 /var/www/html/m2-allbird" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET /wechatpay/checkout/qrcode/data/http%253A%252F%252Fallbirds.mez100.cn%253A8035%252Fcustomer%252Faccount%252Flogin%252F/ HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035", referrer: "http://allbirds.mez100.cn:8035/customer/account/login/"
+2019/01/28 05:55:47 [error] 8#8: *754 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught Error: Class 'Silksoftwarecorp\Base\Model\QRcode\QRcode' not found in /var/www/html/m2-allbirds/app/code/Silksoftwarecorp/WechatPay/Controller/Checkout/Qrcode.php:21
+Stack trace:
+#0 /var/www/html/m2-allbirds/vendor/magento/framework/App/Action/Action.php(108): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode->execute()
+#1 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(58): Magento\Framework\App\Action\Action->dispatch(Object(Magento\Framework\App\Request\Http))
+#2 /var/www/html/m2-allbirds/vendor/magento/framework/Interception/Interceptor.php(138): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->___callParent('dispatch', Array)
+#3 /var/www/html/m2-allbirds/vendor/magento/module-customer-segment/Model/App/Action/ContextPlugin.php(81): Silksoftwarecorp\WechatPay\Controller\Checkout\Qrcode\Interceptor->Magento\Framework\Interception\{closure}(Object(Magento\Framework\App\Request\Http))
+#4 /var/www/html/m2-allbird" while reading response header from upstream, client: 172.19.0.1, server: allbirds.mez100.cn, request: "GET /wechatpay/checkout/qrcode/data/http%253A%252F%252Fallbirds.mez100.cn%253A8035%252Fcustomer%252Faccount%252Flogin%252F/ HTTP/1.1", upstream: "fastcgi://172.19.0.2:9000", host: "allbirds.mez100.cn:8035", referrer: "http://allbirds.mez100.cn:8035/customer/account/login/"
+2019/01/28 06:04:49 [error] 7#7: *771 open() "/var/www/html/pub/static/frontend/Magento/luma/en_US/prototype/windows/themes/default.css" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /pub/static/frontend/Magento/luma/en_US/prototype/windows/themes/default.css HTTP/1.1", host: "localhost"
+2019/01/28 06:04:49 [error] 7#7: *770 open() "/var/www/html/pub/media/theme/static/frontend/{{design_package}}/default/en_US/Magento_Theme/prototype/magento.css" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /pub/media/theme/static/frontend/%7B%7Bdesign_package%7D%7D/default/en_US/Magento_Theme/prototype/magento.css HTTP/1.1", host: "localhost"
+2019/01/28 06:04:49 [error] 7#7: *772 open() "/var/www/html/pub/static/frontend/Magento/luma/en_US/mage/translate-inline.css" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /pub/static/frontend/Magento/luma/en_US/mage/translate-inline.css HTTP/1.1", host: "localhost"
+2019/01/28 06:04:51 [error] 7#7: *773 open() "/var/www/html/pub/static/frontend/Magento/luma/en_US/prototype/windows/themes/default.css" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /pub/static/frontend/Magento/luma/en_US/prototype/windows/themes/default.css HTTP/1.1", host: "localhost"
+2019/01/28 06:04:51 [error] 7#7: *775 open() "/var/www/html/pub/media/theme/static/frontend/{{design_package}}/default/en_US/Magento_Theme/prototype/magento.css" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /pub/media/theme/static/frontend/%7B%7Bdesign_package%7D%7D/default/en_US/Magento_Theme/prototype/magento.css HTTP/1.1", host: "localhost"
+2019/01/28 06:04:51 [error] 7#7: *774 open() "/var/www/html/pub/static/frontend/Magento/luma/en_US/mage/translate-inline.css" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /pub/static/frontend/Magento/luma/en_US/mage/translate-inline.css HTTP/1.1", host: "localhost"

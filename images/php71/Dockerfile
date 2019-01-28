@@ -13,9 +13,9 @@ RUN echo 'https://mirrors.aliyun.com/alpine/v3.7/main' > /etc/apk/repositories  
 
 # ensure www-data user exists
 RUN set -x \
-	&& addgroup -g 82 -S www-data \
-	&& adduser -u 82 -D -S -G www-data www-data
-# 82 is the standard uid/gid for "www-data" in Alpine
+	&& addgroup -g 1000 -S www-data \
+	&& adduser -u 1000 -D -S -G www-data www-data
+# 1000 is the standard uid/gid for "www-data" in Alpine
 
 RUN apk update && apk upgrade && \
     apk add --update --no-cache \
