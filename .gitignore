@@ -2,3 +2,5 @@
 www
 .idea
 .vscode
+logs
+conf/nginx/conf/conf.d
