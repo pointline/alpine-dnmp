@@ -3,39 +3,46 @@ version: "3.2"
 services:
   ## Nginx Web Container ###
   nginx:
-    build: ./images/nginx
+    build: ./core/images/nginx
     container_name: nginx
     volumes:
       - type: bind
         source: ./www
         target: /var/www/html
-      - ./conf/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./conf/nginx/conf/conf.d:/etc/nginx/conf.d:ro
+      - ./core/conf/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./core/conf/nginx/conf/conf.d:/etc/nginx/conf.d:ro
+      - ./web-conf:/etc/nginx/web-conf:ro
       - ./logs/nginx/log:/var/log/nginx:rw
       - type: bind
         source: ./share-files
         target: /var/www/share-files
+      - type: bind
+        source: ./ssl
+        target: /var/www/ssl
     ports:
       - "80:80"
+      - "443:443"
       - "8080:80"
       - "8035:80"
     restart: always
     networks:
       - net-php71
+      - net-php72
     depends_on:
       - php71
-    
+      - php72
+
   ### PHP FPM Container ###
   php71:
-    build: ./images/php71
+    build: ./core/images/php71
     container_name: php71
     volumes:
       - type: bind
         source: ./www
         target: /var/www/html
-      - ./conf/php71/conf/php.ini:/etc/php7/php.ini:ro
-      - ./conf/php71/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
-      - ./conf/php71/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - ./core/conf/php71/conf/php.ini:/etc/php7/php.ini:ro
+      - ./core/conf/php71/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./core/conf/php71/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
       - type: bind
         source: ./share-files
         target: /var/www/share-files
@@ -48,9 +55,31 @@ services:
     depends_on:
       - mysql
 
+  php72:
+    build: ./core/images/php72
+    container_name: php72
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./core/conf/php72/conf/php.ini:/etc/php7/php.ini:ro
+      - ./core/conf/php72/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./core/conf/php72/conf/php-fpm.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    expose:
+      - "9072"
+    restart: always
+    networks:
+      - net-php72
+      - net-mysql
+    depends_on:
+      - mysql
+
   ### MYSQL Container ###
   mysql:
-    build: ./images/mysql
+    build: ./core/images/mysql
     container_name: mysql
     volumes:
       - type: volume
@@ -58,7 +87,7 @@ services:
         target: /var/lib/mysql
         volume:
           nocopy: true
-      - ./conf/mysql/conf/my.cnf:/etc/mysql/my.cnf:ro
+      - ./core/conf/mysql/conf/my.cnf:/etc/mysql/my.cnf:ro
       - type: bind
         source: ./share-files
         target: /var/www/share-files
@@ -73,6 +102,8 @@ services:
 ### Networks Setup ###
 networks:
   net-php71:
+    driver: bridge
+  net-php72:
     driver: bridge
   net-mysql:
     driver: bridge

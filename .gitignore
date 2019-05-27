@@ -1,6 +1,6 @@
 .DS_Store
-www
 .idea
 .vscode
+www
 logs
-conf/nginx/conf/conf.d
+share-files

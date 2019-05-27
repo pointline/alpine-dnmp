@@ -1,6 +1,12 @@
 .DS_Store
-www
-logs
 .idea
 .vscode
+.gitignore
+README.md
+LICENSE
 share-files
+core
+other
+web-conf
+www
+logs
