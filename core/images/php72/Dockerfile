@@ -45,7 +45,10 @@ RUN apk update && apk upgrade && \
 # composer
         composer \
 # git
-        git && \
+        git \
+# git ssh
+        bash \
+        openssh && \
 # Cleaning up
     rm -rf /var/cache/apk/*
 

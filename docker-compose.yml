@@ -66,6 +66,9 @@ services:
       - ./core/conf/php72/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
       - ./core/conf/php72/conf/php-fpm.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
       - type: bind
+        source: ../.ssh
+        target: /root/.ssh
+      - type: bind
         source: ./share-files
         target: /var/www/share-files
     ports:
