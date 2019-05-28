@@ -68,6 +68,9 @@ services:
       - type: bind
         source: ./share-files
         target: /var/www/share-files
+    ports:
+      - "3000:3000"
+      - "35729:35729"
     expose:
       - "9072"
     restart: always
