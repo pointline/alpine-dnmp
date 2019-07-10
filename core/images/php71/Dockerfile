@@ -19,6 +19,7 @@ RUN set -x \
 
 RUN apk update && apk upgrade && \
     apk add --update --no-cache \
+        curl \
         php7 \
 		php7-common \
         php7-fpm \
