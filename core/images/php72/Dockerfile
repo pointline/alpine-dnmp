@@ -61,7 +61,7 @@ RUN npm install -g cnpm --registry=https://registry.npm.taobao.org && \
 WORKDIR /var/www/html
 
 # Expose ports
-EXPOSE 9072
+EXPOSE 9000
 
 # Entry point
 CMD ["/usr/sbin/php-fpm7", "-R", "--nodaemonize"]

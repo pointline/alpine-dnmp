@@ -26,13 +26,41 @@ services:
       - "8035:80"
     restart: always
     networks:
+      - net-php70
       - net-php71
       - net-php72
     depends_on:
+      - php70
       - php71
       - php72
 
   ### PHP FPM Container ###
+  php70:
+    build: ./core/images/php70
+    container_name: php70
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./core/conf/php70/conf/php.ini:/etc/php7/php.ini:ro
+      - ./core/conf/php70/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./core/conf/php70/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    expose:
+      - "9070"
+    restart: always
+    networks:
+      - net-php70
+      - net-mysql
+      - net-elasticsearch
+      - net-redis
+    depends_on:
+      - mysql
+      - elasticsearch
+      - redis
+
   php71:
     build: ./core/images/php71
     container_name: php71
@@ -47,7 +75,7 @@ services:
         source: ./share-files
         target: /var/www/share-files
     expose:
-      - "9000"
+      - "9071"
     restart: always
     networks:
       - net-php71
@@ -79,7 +107,7 @@ services:
       - "3000:3000"
       - "35729:35729"
     expose:
-      - "9072"
+      - "9000"
     restart: always
     networks:
       - net-php72
@@ -145,6 +173,8 @@ services:
 
 ### Networks Setup ###
 networks:
+  net-php70:
+    driver: bridge
   net-php71:
     driver: bridge
   net-php72:
