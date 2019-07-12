@@ -8,4 +8,10 @@ error_reporting = E_ALL
 display_errors = On
 display_startup_errors = On
 track_errors = On
+
+# opcache
+opcache.enable=1
+opcache.enable_cli=1
+opcache.memory_consumption=128
+opcache.interned_strings_buffer=8
 ```

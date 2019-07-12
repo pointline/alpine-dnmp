@@ -46,6 +46,9 @@ services:
       - ./core/conf/php70/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
       - ./core/conf/php70/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
       - type: bind
+        source: ../.ssh
+        target: /root/.ssh
+      - type: bind
         source: ./share-files
         target: /var/www/share-files
     expose:
@@ -71,6 +74,9 @@ services:
       - ./core/conf/php71/conf/php.ini:/etc/php7/php.ini:ro
       - ./core/conf/php71/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
       - ./core/conf/php71/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - type: bind
+        source: ../.ssh
+        target: /root/.ssh
       - type: bind
         source: ./share-files
         target: /var/www/share-files

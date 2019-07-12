@@ -47,7 +47,12 @@ RUN apk update && apk upgrade && \
         php7-tokenizer \
         php7-session \
         php7-fileinfo \
-        php7-xml && \
+        php7-xml \
+# git
+        git \
+# git ssh
+        bash \
+        openssh && \
 # Cleaning up
     rm -rf /var/cache/apk/*
 
