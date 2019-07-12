@@ -31,6 +31,7 @@ RUN apk update && apk upgrade && \
         php7-openssl \
         php7-pdo \
         php7-pdo_mysql \
+        php7-pdo_sqlite \
         php7-soap \
         php7-xsl \ 
         php7-zip \
