@@ -177,6 +177,24 @@ services:
     networks:
       - net-redis
 
+  ### PHPMYADMIN Container ###
+  phpmyadmin:
+    build: ./core/images/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=123456
+    ports:
+      - "3307:80"
+    restart: always
+    networks:
+      - net-phpmyadmin
+      - net-mysql
+    depends_on:
+      - mysql
+
 ### Networks Setup ###
 networks:
   net-php70:
@@ -190,6 +208,8 @@ networks:
   net-elasticsearch:
     driver: bridge
   net-redis:
+    driver: bridge
+  net-phpmyadmin:
     driver: bridge
 
 ### Volumes Setup ###
