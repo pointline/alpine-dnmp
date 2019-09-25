@@ -1,4 +1,4 @@
-FROM node:10.15.3-alpine
+FROM node:10.16.3-alpine
 
 MAINTAINER peter <peter@xulukun.cn>
 
