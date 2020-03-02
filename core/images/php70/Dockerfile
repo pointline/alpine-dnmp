@@ -40,6 +40,7 @@ RUN apk update && apk upgrade && \
         php7-opcache \
         php7-session \
         php7-xml \
+        php7-ftp \
 # git
         git \
 # git ssh
