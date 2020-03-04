@@ -45,6 +45,7 @@ RUN apk update && apk upgrade && \
         php7-fileinfo \
         php7-xml \
         php7-ftp \
+        php7-sodium \
 # composer
         composer \
 # git
