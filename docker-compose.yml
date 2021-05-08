@@ -26,43 +26,45 @@ services:
       - "8035:80"
     restart: always
     networks:
-      - net-php70
+      # - net-php70
       - net-php71
       - net-php72
+      - net-php74
     depends_on:
-      - php70
+      # - php70
       - php71
       - php72
+      - php74
 
   ### PHP FPM Container ###
-  php70:
-    build: ./core/images/php70
-    container_name: php70
-    volumes:
-      - type: bind
-        source: ./www
-        target: /var/www/html
-      - ./core/conf/php70/conf/php.ini:/etc/php7/php.ini:ro
-      - ./core/conf/php70/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
-      - ./core/conf/php70/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
-      - type: bind
-        source: ../.ssh
-        target: /root/.ssh
-      - type: bind
-        source: ./share-files
-        target: /var/www/share-files
-    expose:
-      - "9070"
-    restart: always
-    networks:
-      - net-php70
-      - net-mysql
-      - net-elasticsearch
-      - net-redis
-    depends_on:
-      - mysql
-      - elasticsearch
-      - redis
+  # php70:
+  #   build: ./core/images/php70
+  #   container_name: php70
+  #   volumes:
+  #     - type: bind
+  #       source: ./www
+  #       target: /var/www/html
+  #     - ./core/conf/php70/conf/php.ini:/etc/php7/php.ini:ro
+  #     - ./core/conf/php70/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+  #     - ./core/conf/php70/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+  #     - type: bind
+  #       source: ../.ssh
+  #       target: /root/.ssh
+  #     - type: bind
+  #       source: ./share-files
+  #       target: /var/www/share-files
+  #   expose:
+  #     - "9070"
+  #   restart: always
+  #   networks:
+  #     - net-php70
+  #     - net-mysql
+  #     - net-elasticsearch
+  #     - net-redis
+  #   depends_on:
+  #     - mysql
+  #     - elasticsearch
+  #     - redis
 
   php71:
     build: ./core/images/php71
@@ -109,11 +111,11 @@ services:
       - type: bind
         source: ./share-files
         target: /var/www/share-files
-    ports:
-      - "3000:3000"
-      - "35729:35729"
+    # ports:
+    #   - "3000:3000"
+    #   - "35729:35729"
     expose:
-      - "9000"
+      - "9072"
     restart: always
     networks:
       - net-php72
@@ -122,6 +124,40 @@ services:
       - net-redis
     depends_on:
       - mysql
+      - elasticsearch
+      - redis
+
+  php74:
+    build: ./core/images/php74
+    container_name: php74
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./core/conf/php74/conf/php.ini:/etc/php7/php.ini:ro
+      - ./core/conf/php74/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./core/conf/php74/conf/php-fpm.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - type: bind
+        source: ../.ssh
+        target: /root/.ssh
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    # ports:
+    #   - "3000:3000"
+    #   - "35729:35729"
+    expose:
+      - "9000"
+    restart: always
+    networks:
+      - net-php74
+      - net-mysql
+      - net-mysql8
+      - net-elasticsearch
+      - net-redis
+    depends_on:
+      - mysql
+      - mysql8
       - elasticsearch
       - redis
 
@@ -147,12 +183,37 @@ services:
     networks:
       - net-mysql
 
+  ### MYSQL8 Container ###
+  mysql8:
+    build: ./core/images/mysql8
+    container_name: mysql8
+    volumes:
+      - type: volume
+        source: db-mysql8
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+      - ./core/conf/mysql8/conf/my.cnf:/etc/mysql/my.cnf:ro
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    ports:
+      - "3308:3308"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    restart: always
+    networks:
+      - net-mysql8
+
   ### ELASTICSEARCH Container ###
   elasticsearch:
-    image: elasticsearch:6.7.2
+    image: elasticsearch:7.12.1
     container_name: elasticsearch
     environment:
-      - cluster.name=docker-cluster
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -192,18 +253,24 @@ services:
     networks:
       - net-phpmyadmin
       - net-mysql
+      - net-mysql8
     depends_on:
       - mysql
+      - mysql8
 
 ### Networks Setup ###
 networks:
-  net-php70:
-    driver: bridge
+  # net-php70:
+  #   driver: bridge
   net-php71:
     driver: bridge
   net-php72:
     driver: bridge
+  net-php74:
+    driver: bridge
   net-mysql:
+    driver: bridge
+  net-mysql8:
     driver: bridge
   net-elasticsearch:
     driver: bridge
@@ -215,6 +282,8 @@ networks:
 ### Volumes Setup ###
 volumes:
   db-mysql:
+    driver: local
+  db-mysql8:
     driver: local
   esdata:
     driver: local

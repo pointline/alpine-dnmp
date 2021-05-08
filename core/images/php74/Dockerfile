@@ -1,11 +1,11 @@
-FROM node:10.16.3-alpine
+FROM node:lts-alpine3.13
 
 MAINTAINER peter <peter@xulukun.cn>
 
 # Mirror mirror switch to Ali-OSM (Alibaba Open Source Mirror Site) - http://mirrors.aliyun.com/
-RUN echo 'https://mirrors.aliyun.com/alpine/v3.9/main' > /etc/apk/repositories  && \
-	echo 'https://mirrors.aliyun.com/alpine/v3.9/community' >> /etc/apk/repositories
-	# && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+# RUN echo 'https://mirrors.aliyun.com/alpine/v3.13/main' > /etc/apk/repositories  && \
+# 	echo 'https://mirrors.aliyun.com/alpine/v3.13/community' >> /etc/apk/repositories
+# 	# && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # ensure www-data user exists
 RUN set -x \
@@ -46,6 +46,7 @@ RUN apk update && apk upgrade && \
         php7-xml \
         php7-ftp \
         php7-sodium \
+        php7-sockets \
 # composer
         composer \
 # git
@@ -57,14 +58,13 @@ RUN apk update && apk upgrade && \
     rm -rf /var/cache/apk/*
 
 RUN npm install -g cnpm --registry=https://registry.npm.taobao.org && \
-    yarn config set registry https://registry.npm.taobao.org && \
-    cnpm i -g grunt-cli gulp-cli
+    yarn config set registry https://registry.npm.taobao.org
 
 # Set Workdir
 WORKDIR /var/www/html
 
 # Expose ports
-EXPOSE 9072
+EXPOSE 9000
 
 # Entry point
 CMD ["/usr/sbin/php-fpm7", "-R", "--nodaemonize"]

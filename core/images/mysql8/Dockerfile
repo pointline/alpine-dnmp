@@ -1,3 +1,3 @@
-FROM redis:6.0-alpine
+FROM mysql:8.0
 
 MAINTAINER peter <peter@xulukun.cn>
