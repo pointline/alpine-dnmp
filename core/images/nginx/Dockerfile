@@ -1,4 +1,4 @@
-FROM nginx:1.19.10-alpine
+FROM nginx:1.21.3-alpine
 
 MAINTAINER peter <peter@xulukun.cn>
 

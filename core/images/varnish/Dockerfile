@@ -1,4 +1,4 @@
-FROM varnish:6.2
+FROM varnish:6.6.1
 
 MAINTAINER peter <peter@xulukun.cn>
 

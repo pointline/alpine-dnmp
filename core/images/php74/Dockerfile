@@ -3,8 +3,8 @@ FROM node:lts-alpine3.13
 MAINTAINER peter <peter@xulukun.cn>
 
 # Mirror mirror switch to Ali-OSM (Alibaba Open Source Mirror Site) - http://mirrors.aliyun.com/
-# RUN echo 'https://mirrors.aliyun.com/alpine/v3.13/main' > /etc/apk/repositories  && \
-# 	echo 'https://mirrors.aliyun.com/alpine/v3.13/community' >> /etc/apk/repositories
+RUN echo 'https://mirrors.aliyun.com/alpine/v3.13/main' > /etc/apk/repositories  && \
+	echo 'https://mirrors.aliyun.com/alpine/v3.13/community' >> /etc/apk/repositories
 # 	# && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # ensure www-data user exists
