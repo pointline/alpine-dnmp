@@ -1,0 +1,243 @@
+version: "3.2"
+
+services:
+  ## Nginx Web Container ###
+  nginx:
+    build: ./core/images/nginx
+    container_name: nginx
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./core/conf/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./core/conf/nginx/conf/conf.d:/etc/nginx/conf.d:ro
+      - ./web-conf:/etc/nginx/web-conf:ro
+      - ./logs/nginx/log:/var/log/nginx:rw
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+      - type: bind
+        source: ./ssl
+        target: /var/www/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:80"
+      - "8035:80"
+    restart: always
+    networks:
+      - net-php70
+      - net-php71
+      - net-php72
+      - net-varnish
+    depends_on:
+      - php70
+      - php71
+      - php72
+
+  ### PHP FPM Container ###
+  php70:
+    build: ./core/images/php70
+    container_name: php70
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./core/conf/php70/conf/php.ini:/etc/php7/php.ini:ro
+      - ./core/conf/php70/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./core/conf/php70/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - type: bind
+        source: ../.ssh
+        target: /root/.ssh
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    expose:
+      - "9070"
+    restart: always
+    networks:
+      - net-php70
+      - net-mysql
+      - net-elasticsearch
+      - net-redis
+    depends_on:
+      - mysql
+      - elasticsearch
+      - redis
+
+  php71:
+    build: ./core/images/php71
+    container_name: php71
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./core/conf/php71/conf/php.ini:/etc/php7/php.ini:ro
+      - ./core/conf/php71/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./core/conf/php71/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - type: bind
+        source: ../.ssh
+        target: /root/.ssh
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    expose:
+      - "9071"
+    restart: always
+    networks:
+      - net-php71
+      - net-mysql
+      - net-elasticsearch
+      - net-redis
+    depends_on:
+      - mysql
+      - elasticsearch
+      - redis
+
+  php72:
+    build: ./core/images/php72
+    container_name: php72
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www/html
+      - ./core/conf/php72/conf/php.ini:/etc/php7/php.ini:ro
+      - ./core/conf/php72/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+      - ./core/conf/php72/conf/php-fpm.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - type: bind
+        source: ../.ssh
+        target: /root/.ssh
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    expose:
+      - "9000"
+    restart: always
+    networks:
+      - net-php72
+      - net-mysql
+      - net-elasticsearch
+      - net-redis
+    depends_on:
+      - mysql
+      - elasticsearch
+      - redis
+
+  ### MYSQL Container ###
+  mysql:
+    build: ./core/images/mysql
+    container_name: mysql
+    volumes:
+      - type: volume
+        source: db-mysql
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+      - ./core/conf/mysql/conf/my.cnf:/etc/mysql/my.cnf:ro
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    restart: always
+    networks:
+      - net-mysql
+
+  ### ELASTICSEARCH Container ###
+  elasticsearch:
+    image: elasticsearch:6.7.2
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - net-elasticsearch
+
+  ### REDIS Container ###
+  redis:
+    build: ./core/images/redis
+    container_name: redis
+    volumes:
+      - redisdata:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - net-redis
+
+  ### PHPMYADMIN Container ###
+  phpmyadmin:
+    build: ./core/images/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=123456
+    ports:
+      - "3307:80"
+    restart: always
+    networks:
+      - net-phpmyadmin
+      - net-mysql
+    depends_on:
+      - mysql
+
+  ### Varnish Container ###
+  varnish:
+    build: ./core/images/varnish
+    container_name: varnish
+    volumes:
+      - ./web-conf/default.vcl:/etc/varnish/default.vcl:ro
+    ports:
+      - "8081:80"
+    restart: always
+    networks:
+      - net-varnish
+      - net-nginx
+    depends_on:
+      - nginx
+
+### Networks Setup ###
+networks:
+  net-php70:
+    driver: bridge
+  net-php71:
+    driver: bridge
+  net-php72:
+    driver: bridge
+  net-mysql:
+    driver: bridge
+  net-elasticsearch:
+    driver: bridge
+  net-redis:
+    driver: bridge
+  net-phpmyadmin:
+    driver: bridge
+  net-varnish:
+    driver: bridge
+  net-nginx:
+    driver: bridge
+
+
+### Volumes Setup ###
+volumes:
+  db-mysql:
+    driver: local
+  esdata:
+    driver: local
+  redisdata:
+    driver: local
