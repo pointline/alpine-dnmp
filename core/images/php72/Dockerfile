@@ -47,6 +47,7 @@ RUN apk update && apk upgrade && \
         php7-ftp \
         php7-sodium \
         php7-sockets \
+        php7-xmlreader \
 # composer
         composer \
 # git
@@ -56,10 +57,6 @@ RUN apk update && apk upgrade && \
         openssh && \
 # Cleaning up
     rm -rf /var/cache/apk/*
-
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org && \
-    yarn config set registry https://registry.npm.taobao.org && \
-    cnpm i -g grunt-cli gulp-cli
 
 # Set Workdir
 WORKDIR /var/www/html

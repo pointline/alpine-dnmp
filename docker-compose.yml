@@ -37,35 +37,6 @@ services:
       - php74
 
   ### PHP FPM Container ###
-  # php70:
-  #   build: ./core/images/php70
-  #   container_name: php70
-  #   volumes:
-  #     - type: bind
-  #       source: ./www
-  #       target: /var/www/html
-  #     - ./core/conf/php70/conf/php.ini:/etc/php7/php.ini:ro
-  #     - ./core/conf/php70/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
-  #     - ./core/conf/php70/conf/conf.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
-  #     - type: bind
-  #       source: ../.ssh
-  #       target: /root/.ssh
-  #     - type: bind
-  #       source: ./share-files
-  #       target: /var/www/share-files
-  #   expose:
-  #     - "9070"
-  #   restart: always
-  #   networks:
-  #     - net-php70
-  #     - net-mysql
-  #     - net-elasticsearch
-  #     - net-redis
-  #   depends_on:
-  #     - mysql
-  #     - elasticsearch
-  #     - redis
-
   php71:
     build: ./core/images/php71
     container_name: php71
@@ -111,9 +82,6 @@ services:
       - type: bind
         source: ./share-files
         target: /var/www/share-files
-    # ports:
-    #   - "3000:3000"
-    #   - "35729:35729"
     expose:
       - "9072"
     restart: always
@@ -143,9 +111,6 @@ services:
       - type: bind
         source: ./share-files
         target: /var/www/share-files
-    # ports:
-    #   - "3000:3000"
-    #   - "35729:35729"
     expose:
       - "9000"
     restart: always
@@ -185,6 +150,7 @@ services:
 
   ### MYSQL8 Container ###
   mysql8:
+    platform: linux/amd64
     build: ./core/images/mysql8
     container_name: mysql8
     volumes:
@@ -260,8 +226,6 @@ services:
 
 ### Networks Setup ###
 networks:
-  # net-php70:
-  #   driver: bridge
   net-php71:
     driver: bridge
   net-php72:

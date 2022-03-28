@@ -3,6 +3,7 @@ version: "3.2"
 services:
   ### MYSQL Container ###
   mysql:
+    platform: linux/amd64
     build: ./core/images/mysql
     container_name: mysql
     volumes:

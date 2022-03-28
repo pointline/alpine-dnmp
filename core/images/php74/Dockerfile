@@ -1,16 +1,15 @@
-FROM node:lts-alpine3.13
+FROM node:lts-alpine3.14
 
 MAINTAINER peter <peter@xulukun.cn>
 
 # Mirror mirror switch to Ali-OSM (Alibaba Open Source Mirror Site) - http://mirrors.aliyun.com/
-RUN echo 'https://mirrors.aliyun.com/alpine/v3.13/main' > /etc/apk/repositories  && \
-	echo 'https://mirrors.aliyun.com/alpine/v3.13/community' >> /etc/apk/repositories
+RUN echo 'https://mirrors.aliyun.com/alpine/v3.14/main' > /etc/apk/repositories  && \
+	echo 'https://mirrors.aliyun.com/alpine/v3.14/community' >> /etc/apk/repositories
 # 	# && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # ensure www-data user exists
 RUN set -x \
-	&& addgroup -g 1100 -S www-data \
-	&& adduser -u 1100 -D -S -G www-data www-data
+        && adduser -u 1100 -D -S www-data -G www-data
 # 1100 is the standard uid/gid for "www-data" in Alpine
 
 RUN apk update && apk upgrade && \
@@ -47,6 +46,7 @@ RUN apk update && apk upgrade && \
         php7-ftp \
         php7-sodium \
         php7-sockets \
+        php7-xmlreader \
 # composer
         composer \
 # git
@@ -56,9 +56,6 @@ RUN apk update && apk upgrade && \
         openssh && \
 # Cleaning up
     rm -rf /var/cache/apk/*
-
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org && \
-    yarn config set registry https://registry.npm.taobao.org
 
 # Set Workdir
 WORKDIR /var/www/html
