@@ -28,12 +28,12 @@ services:
     networks:
       # - net-php70
       - net-php71
-      - net-php72
+      # - net-php72
       - net-php74
     depends_on:
       # - php70
       - php71
-      - php72
+      # - php72
       - php74
 
   ### PHP FPM Container ###
@@ -66,34 +66,34 @@ services:
       - elasticsearch
       - redis
 
-  php72:
-    build: ./core/images/php72
-    container_name: php72
-    volumes:
-      - type: bind
-        source: ./www
-        target: /var/www/html
-      - ./core/conf/php72/conf/php.ini:/etc/php7/php.ini:ro
-      - ./core/conf/php72/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
-      - ./core/conf/php72/conf/php-fpm.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
-      - type: bind
-        source: ../.ssh
-        target: /root/.ssh
-      - type: bind
-        source: ./share-files
-        target: /var/www/share-files
-    expose:
-      - "9072"
-    restart: always
-    networks:
-      - net-php72
-      - net-mysql
-      - net-elasticsearch
-      - net-redis
-    depends_on:
-      - mysql
-      - elasticsearch
-      - redis
+  # php72:
+  #   build: ./core/images/php72
+  #   container_name: php72
+  #   volumes:
+  #     - type: bind
+  #       source: ./www
+  #       target: /var/www/html
+  #     - ./core/conf/php72/conf/php.ini:/etc/php7/php.ini:ro
+  #     - ./core/conf/php72/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
+  #     - ./core/conf/php72/conf/php-fpm.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+  #     - type: bind
+  #       source: ../.ssh
+  #       target: /root/.ssh
+  #     - type: bind
+  #       source: ./share-files
+  #       target: /var/www/share-files
+  #   expose:
+  #     - "9072"
+  #   restart: always
+  #   networks:
+  #     - net-php72
+  #     - net-mysql
+  #     - net-elasticsearch
+  #     - net-redis
+  #   depends_on:
+  #     - mysql
+  #     - elasticsearch
+  #     - redis
 
   php74:
     build: ./core/images/php74
@@ -178,10 +178,18 @@ services:
     environment:
       - node.name=es01
       - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es02,es03
-      - cluster.initial_master_nodes=es01,es02,es03
+  #    - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=DkIedPPSCb
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - http.cors.allow-headers="Authorization, X-Requested-With,X-Auth-Token,Content-Type, Content-Length"
+      - http.cors.allow-credentials=true
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -228,8 +236,8 @@ services:
 networks:
   net-php71:
     driver: bridge
-  net-php72:
-    driver: bridge
+  # net-php72:
+  #   driver: bridge
   net-php74:
     driver: bridge
   net-mysql:

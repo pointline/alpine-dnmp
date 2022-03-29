@@ -1,14 +1,25 @@
-version: "3.2"
+version: "3.8"
 
 services:
   ### ELASTICSEARCH Container ###
   elasticsearch:
-    image: elasticsearch:5.6.16
+    image: elasticsearch:7.12.1
     container_name: elasticsearch
     environment:
-      - cluster.name=docker-cluster
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+  #    - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=DkIedPPSCb
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - http.cors.allow-headers="Authorization, X-Requested-With,X-Auth-Token,Content-Type, Content-Length"
+      - http.cors.allow-credentials=true
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -20,27 +31,39 @@ services:
     networks:
       - net-elasticsearch
 
-  ### REDIS Container ###
-  redis:
-    build: ./core/images/redis
-    container_name: redis
+  ### MYSQL8 Container ###
+  mysql8:
+    platform: linux/amd64
+    build: ./core/images/mysql8
+    container_name: mysql8
     volumes:
-      - redisdata:/data
+      - type: volume
+        source: db-mysql8
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+      - ./core/conf/mysql8/conf/my.cnf:/etc/mysql/my.cnf:ro
+      - type: bind
+        source: ./share-files
+        target: /var/www/share-files
     ports:
-      - "6379:6379"
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    restart: always
     networks:
-      - net-redis
+      - net-mysql8
 
 ### Networks Setup ###
 networks:
   net-elasticsearch:
     driver: bridge
-  net-redis:
+  net-mysql8:
     driver: bridge
 
 ### Volumes Setup ###
 volumes:
   esdata:
     driver: local
-  redisdata:
+  db-mysql8:
     driver: local
