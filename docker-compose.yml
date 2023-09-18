@@ -26,12 +26,10 @@ services:
       - "8035:80"
     restart: always
     networks:
-      # - net-php70
       - net-php71
       # - net-php72
       - net-php74
     depends_on:
-      # - php70
       - php71
       # - php72
       - php74
@@ -61,10 +59,12 @@ services:
       - net-mysql
       - net-elasticsearch
       - net-redis
+      - net-rabbitmq
     depends_on:
       - mysql
       - elasticsearch
       - redis
+      - rabbitmq
 
   # php72:
   #   build: ./core/images/php72
@@ -90,6 +90,7 @@ services:
   #     - net-mysql
   #     - net-elasticsearch
   #     - net-redis
+  #     - net-rabbitmq
   #   depends_on:
   #     - mysql
   #     - elasticsearch
@@ -102,9 +103,8 @@ services:
       - type: bind
         source: ./www
         target: /var/www/html
-      - ./core/conf/php74/conf/php.ini:/etc/php7/php.ini:ro
-      - ./core/conf/php74/conf/php-fpm.conf:/etc/php7/php-fpm.conf:ro
-      - ./core/conf/php74/conf/php-fpm.d/www.conf:/etc/php7/php-fpm.d/www.conf:ro
+      - ./core/conf/php74/conf/php.ini-development:/usr/local/etc/php/php.ini:ro
+      - ./core/conf/php74/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
       - type: bind
         source: ../.ssh
         target: /root/.ssh
@@ -116,15 +116,19 @@ services:
     restart: always
     networks:
       - net-php74
-      - net-mysql
+      # - net-mysql
       - net-mysql8
-      - net-elasticsearch
+      # - net-elasticsearch
+      - net-elasticsearch7
       - net-redis
+      - net-rabbitmq
     depends_on:
-      - mysql
+      # - mysql
       - mysql8
-      - elasticsearch
+      # - elasticsearch
+      - elasticsearch7
       - redis
+      - rabbitmq
 
   ### MYSQL Container ###
   mysql:
@@ -150,7 +154,7 @@ services:
 
   ### MYSQL8 Container ###
   mysql8:
-    platform: linux/amd64
+    # platform: linux/amd64
     build: ./core/images/mysql8
     container_name: mysql8
     volumes:
@@ -173,33 +177,44 @@ services:
 
   ### ELASTICSEARCH Container ###
   elasticsearch:
-    image: elasticsearch:7.12.1
+    image: elasticsearch:6.8.15
     container_name: elasticsearch
     environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-  #    - discovery.seed_hosts=es02,es03
-      - cluster.initial_master_nodes=es01
-      - ELASTIC_USERNAME=elastic
-      - ELASTIC_PASSWORD=DkIedPPSCb
+      - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - http.cors.enabled=true
-      - http.cors.allow-origin=*
-      - http.cors.allow-headers="Authorization, X-Requested-With,X-Auth-Token,Content-Type, Content-Length"
-      - http.cors.allow-credentials=true
-      - xpack.security.enabled=false
-      - xpack.security.transport.ssl.enabled=false
+      - discovery.type=single-node
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch6/data
     ports:
       - "9200:9200"
+    restart: always
     networks:
       - net-elasticsearch
+
+  elasticsearch7:
+    image: elasticsearch:7.17.9
+    container_name: elasticsearch7
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata7:/usr/share/elasticsearch/data
+    ports:
+      - 9207:9200
+    restart: always
+    networks:
+      - net-elasticsearch7
 
   ### REDIS Container ###
   redis:
@@ -212,25 +227,21 @@ services:
     networks:
       - net-redis
 
-  ### PHPMYADMIN Container ###
-  phpmyadmin:
-    build: ./core/images/phpmyadmin
-    container_name: phpmyadmin
-    environment:
-      - PMA_HOST=mysql
-      - PMA_PORT=3306
-      - PMA_USER=root
-      - PMA_PASSWORD=123456
+  ### Rabbitmq Container###
+  rabbitmq:
+    image: rabbitmq:3.8.3-management
+    container_name: rabbitmq3.8
+    volumes:
+      - rabbitmqdata:/data
     ports:
-      - "3307:80"
+      - "15672:15672"
+      - "5672:5672"
     restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=123456
     networks:
-      - net-phpmyadmin
-      - net-mysql
-      - net-mysql8
-    depends_on:
-      - mysql
-      - mysql8
+      - net-rabbitmq
 
 ### Networks Setup ###
 networks:
@@ -246,9 +257,11 @@ networks:
     driver: bridge
   net-elasticsearch:
     driver: bridge
+  net-elasticsearch7:
+    driver: bridge
   net-redis:
     driver: bridge
-  net-phpmyadmin:
+  net-rabbitmq:
     driver: bridge
 
 ### Volumes Setup ###
@@ -259,5 +272,9 @@ volumes:
     driver: local
   esdata:
     driver: local
+  esdata7:
+    driver: local
   redisdata:
+    driver: local
+  rabbitmqdata:
     driver: local

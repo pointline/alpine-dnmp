@@ -1,61 +1,36 @@
-FROM node:lts-alpine3.14
+FROM php:7.4.33-fpm
 
 MAINTAINER peter <peter@xulukun.cn>
 
-# Mirror mirror switch to Ali-OSM (Alibaba Open Source Mirror Site) - http://mirrors.aliyun.com/
-RUN echo 'https://mirrors.aliyun.com/alpine/v3.14/main' > /etc/apk/repositories  && \
-	echo 'https://mirrors.aliyun.com/alpine/v3.14/community' >> /etc/apk/repositories
-# 	# && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN apt-get update
 
-# ensure www-data user exists
-RUN set -x \
-        && adduser -u 1100 -D -S www-data -G www-data
-# 1100 is the standard uid/gid for "www-data" in Alpine
+RUN apt-get install -y vim
 
-RUN apk update && apk upgrade && \
-    apk add --update --no-cache \
-        curl \
-        php7 \
-        php7-common \
-        php7-fpm \
-        php7-dom \
-        php7-mbstring \
-        php7-json \
-        php7-bcmath \
-        php7-ctype \
-        php7-curl \ 
-        php7-gd \ 
-        php7-intl \
-        # php7-mcrypt \
-        php7-openssl \
-        php7-pdo \
-        php7-pdo_mysql \
-        php7-pdo_sqlite \
-        php7-simplexml \
-        php7-soap \
-        php7-xsl \ 
-        php7-zip \
-        php7-iconv \
-        php7-phar \ 
-        php7-xmlwriter \
-        php7-opcache \
-        php7-tokenizer \
-        php7-session \
-        php7-fileinfo \
-        php7-xml \
-        php7-ftp \
-        php7-sodium \
-        php7-sockets \
-        php7-xmlreader \
-# composer
-        composer \
-# git
-        git \
-# git ssh
-        bash \
-        openssh && \
-# Cleaning up
-    rm -rf /var/cache/apk/*
+# 安装 GD 库
+RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
+    docker-php-ext-install -j$(nproc) gd
+
+# 安装 intl
+RUN apt-get install -y libicu-dev && docker-php-ext-install intl
+
+# 安装 simplexml
+RUN apt-get install -y libxml2-dev && docker-php-ext-install simplexml
+
+# 安装 soap
+RUN apt-get install -y libssl-dev && docker-php-ext-install soap
+
+# 安装 xsl
+RUN apt-get install -y libxslt-dev && docker-php-ext-install xsl
+
+# 安装 zip
+RUN apt-get install -y zlib1g-dev libzip-dev && docker-php-ext-install zip
+
+# 安装其他扩展
+RUN docker-php-ext-install mysqli pdo_mysql bcmath xsl opcache
+
+# 开启 PNG、JPEG 支持
+RUN docker-php-ext-install exif
 
 # Set Workdir
 WORKDIR /var/www/html
@@ -64,4 +39,4 @@ WORKDIR /var/www/html
 EXPOSE 9000
 
 # Entry point
-CMD ["/usr/sbin/php-fpm7", "-R", "--nodaemonize"]
+CMD ["php-fpm", "-R", "--nodaemonize"]
